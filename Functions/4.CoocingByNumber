@@ -1,0 +1,29 @@
+<?php
+$point=intval(trim(fgets(STDIN)));
+$commands=explode(", ",trim(fgets(STDIN)));
+
+    function getCommands($command, $point)
+    {
+        switch ($command) {
+            case 'chop':
+                return $point/2;
+
+            case 'dice':
+                return sqrt($point);
+
+            case 'spice':
+                return ++$point;
+
+            case 'bake':
+                return $point * 3;
+
+            case 'fillet':
+                return $point * 0.8;
+
+        }
+        return $point;
+    }
+foreach ($commands as $command){
+      $point=getCommands($command,$point);
+      echo $point."\r\n";
+}

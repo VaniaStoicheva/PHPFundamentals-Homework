@@ -1,0 +1,11 @@
+<?php
+$variable="hello";
+ var_dump($variable);
+ $variable=15;
+ var_dump($variable);
+ $variable=1.234;
+ var_dump($variable);
+ $variable=array(1,2,3);
+ var_dump($variable);
+ $variable=(object)[2,34];
+ var_dump($variable);

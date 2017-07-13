@@ -1,0 +1,46 @@
+ 
+ article model
+ public function create(int $author_id, string $title, string $content):bool
+    {
+        if (!isset($author_id) && !isset($title) && !isset($content)) {
+            throw new \Exception("ERROR: ArticleModel->create -> all parameters are Mandatory title={$title}, content={$content} <-");
+        }
+        //INSERT INTO `articles`( `author_id`, `title`, `content`) VALUES ('3','new article','gergtgrgyrrtge')
+        // приготвяме заявката за записване на артикъла
+        $result = $this->prepare("INSERT INTO `articles`( `author_id`, `title`, `content`) VALUES (?,?,?)", [$author_id,$title,$content]);
+        // опитваме се да запишем артикъла в базата с данни
+        $result->execute();
+        // ако е Не успешна заявката то тогава getAffectedRows() ще върне 0 което като булева е false
+        if  (!$result->getAffectedRows()){
+            // ако е върнало 0/false трябва да покажем грешка
+            $this->setErrorMessage("Error: article was not saved in DB!");
+            return false;
+        }else {
+            // ако е успяло да се запише в базата с данни то тогава ние връщаме true
+            return true;
+        }
+    }
+	
+	 public function showAllPost():array {
+        $result=$this->prepare("SELECT * FROM `articles`");
+        $result->execute();
+        /*if  (!$result->getAffectedRows()){
+            // ако е върнало 0/false трябва да покажем грешка
+            $this->setErrorMessage("Error: article was not saved in DB!");
+            return false;
+        }else {
+            // ако е успяло да се запише в базата с данни то тогава ние връщаме true
+            return true;
+        }*/
+        return $result=$result->fetchAllAssoc();
+
+    }
+
+    public function showPostById($author_id):array {
+        $result=$this->prepare("SELECT * FROM `articles` WHERE `author_id`=?",[$author_id]);
+        $result->execute();
+
+
+        return $result->fetchAllAssoc();
+
+    }
